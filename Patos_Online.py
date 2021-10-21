@@ -33,23 +33,25 @@ soup = BeautifulSoup(res.text, 'html.parser')
 
 nome = soup.select('h2.post-title')
 link = soup.select('.more-link')
-
+horas = soup.select('span.date')
 
 def stories_sorted(nL):
     K = nL
     for item in K:
             x = item.get('title')
             y = item.get('link')
-            print(f' \nNotícia: {x}. \n\nLink: https://www.patosonline.com{y}\n\n')
+            z = item.get('hour')
+            print(f' \nNotícia: {x} ({z}) \n\nLink: https://www.patosonline.com{y} \n\n')
     return 'Tenha um ótimo dia!'
 
-def customList(nome, link):
+def customList(nome, link, horas):
     L = []
     for index, item in enumerate(nome):
         title = nome[index].getText()
+        hour = horas[index].getText()
         href = link[index].get('href', None)
-        L.append({'title' : title, 'link' : href})
+        L.append({'title' : title, 'link' : href, 'hour' : hour})
     return stories_sorted(L)
 
-customList(nome, link)
+customList(nome, link, horas)
 
