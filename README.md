@@ -21,27 +21,52 @@ print('Olá, que tipo de notícia você deseja ver? ')
 
 for item in categorias:
     print(f'{categorias.index(item)+1}-{item}')
+```
+This block of code is the first thing the user sees when he runs the program. It displays the categories of the news.
 
-while True:
-    try:
-        while True:
-            numeracao = int(input('Insira aqui a sua escolha: ' )) 
-            if numeracao <= 0:
-                    print('Por favor, insira um número de 1 a 9.')
-            else:
-                break
-        categoria = categorias[numeracao-1]
-    except ValueError:
-        print('Por favor, insira um número de 1 a 9.')
-    except IndexError:
-        print('Por favor, insira u número de 1 a 9')
-    else:
-        break
+### Catching the user's input
+
+```python
+def validate_type(value):
+    if isinstance(value, int):
+        return True
+
+    if isinstance(value, str):
+        return value.isdigit()
+
+    return False
+
+
+def validate_value_range(input):
+    return 0 < int(input) < 10
+
+
+def validate(value):
+    validated = validate_type(value) and validate_value_range(value)
+
+    return validated
+
+
+def ask_user_input():
+    valid_input = False
+    value = None
+
+    while not valid_input:
+        value = input('Insira aqui a sua escolha: ')
+        valid_input = validate(value)
+
+        if not valid_input:
+            print('Por favor, insira um número de 1 a 9.')
+
+    return int(value)
+
+
+categoria = categorias[ask_user_input()-1]
 
 if 'í' in categoria:
     categoria = categoria.replace('í', 'i')
-```
-This block of code is used to catch the user input. See that in the list "categoria" we have the news categories. Those are specific to the website used in the program.
+ ``` 
+Those functions will validate the user's input. It has to be a integer between 0 and 10. 
 
 ### Using requests and Beautiful Soup
 
