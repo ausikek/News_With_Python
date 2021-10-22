@@ -12,10 +12,11 @@ We will use bs4 to parse the html data.
 ### Initial section 
 
 ```python
-import requests
+import requests as req
 from bs4 import BeautifulSoup
 
-categorias = ['Brasil', 'Colunistas','Esportes','Locais','Gerais','Mundo','Polícial','Política','Regional']
+categorias = ['Brasil', 'Colunistas', 'Esportes', 'Locais',
+              'Gerais', 'Mundo', 'Polícial', 'Política', 'Regional']
 
 print('Olá, que tipo de notícia você deseja ver? ')
 
@@ -71,7 +72,7 @@ Those functions will validate the user's input. It has to be a integer between 0
 ### Using requests and Beautiful Soup
 
 ```python
-res = requests.get(f'https://www.patosonline.com/category/{categoria.lower()}/')
+res = req.get(f'https://www.patosonline.com/category/{categoria.lower()}/')
 soup = BeautifulSoup(res.text, 'html.parser')
 
 nome = soup.select('h2.post-title')
@@ -90,7 +91,7 @@ def customList(nome, link, horas):
         title = nome[index].getText()
         hour = horas[index].getText()
         href = link[index].get('href', None)
-        L.append({'title' : title, 'link' : href, 'hour' : hour})
+        L.append({'title': title, 'link': href, 'hour': hour})
     return stories_sorted(L)
 ```
 In this function, the title, link and time of post of the article will be stored as a dictionary and appended to a list. Then, stories_sorted() will be applied on that list.
@@ -104,7 +105,10 @@ def stories_sorted(nL):
             x = item.get('title')
             y = item.get('link')
             z = item.get('hour')
-            print(f' \nNotícia: {x} ({z}) \n\nLink: https://www.patosonline.com{y} \n\n')
+            print(f'''
+            \nNotícia: {x} ({z})
+            \nLink: https://www.patosonline.com{y}
+            ''')
     return 'Tenha um ótimo dia!'
 ```
 In this function, we get the respective items from the dictionary and print them to the user.
